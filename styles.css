@@ -944,6 +944,13 @@ img {
   height: 96px;
 }
 
+.maze-wall--nine {
+  left: 74px;
+  top: 20px;
+  width: 392px;
+  height: 14px;
+}
+
 .hug-run__player {
   left: 18px;
   top: 18px;
