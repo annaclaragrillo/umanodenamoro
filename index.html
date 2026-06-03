@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Parisienne&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=14" />
+    <link rel="stylesheet" href="styles.css?v=15" />
   </head>
   <body>
     <div class="page-shell">
@@ -368,6 +368,62 @@
           </div>
         </section>
 
+        <section class="section section--journey-games">
+          <div class="section-heading">
+            <p class="eyebrow">Mais duas fases</p>
+            <h2>Antes da memória, ainda tem dois minigames para chegar até mim.</h2>
+          </div>
+
+          <div class="games-grid">
+            <article class="game-card">
+              <div class="game-card__header">
+                <p class="eyebrow">Leve o coração até mim</p>
+                <h3>Usa WASD ou setas e encontra a Anna Clara.</h3>
+              </div>
+              <p class="game-card__text">
+                Clica na arena e passa pelo labirinto sem encostar nas paredes.
+              </p>
+
+              <div class="maze-arena" id="maze-arena" tabindex="0">
+                <div class="maze-player" id="maze-player">&#10084;</div>
+                <div class="maze-goal" id="maze-goal">Anna Clara</div>
+                <span class="maze-wall maze-wall--one"></span>
+                <span class="maze-wall maze-wall--two"></span>
+                <span class="maze-wall maze-wall--three"></span>
+                <span class="maze-wall maze-wall--four"></span>
+                <span class="maze-wall maze-wall--five"></span>
+              </div>
+
+              <p class="game-feedback" id="maze-feedback">
+                Vai com calma. O objetivo &eacute; chegar at&eacute; mim.
+              </p>
+            </article>
+
+            <article class="game-card">
+              <div class="game-card__header">
+                <p class="eyebrow">Corre para o abra&ccedil;o</p>
+                <h3>Pega carinho, riso, beijo e saudade boa antes do final.</h3>
+              </div>
+              <p class="game-card__text">
+                Junta tudo o que tem a nossa cara e depois corre para o abra&ccedil;o.
+              </p>
+
+              <div class="hug-run" id="hug-run" tabindex="0">
+                <div class="hug-run__player" id="hug-player">&#10084;</div>
+                <div class="hug-run__pickup hug-run__pickup--one" data-label="carinho">carinho</div>
+                <div class="hug-run__pickup hug-run__pickup--two" data-label="riso">riso</div>
+                <div class="hug-run__pickup hug-run__pickup--three" data-label="beijo">beijo</div>
+                <div class="hug-run__pickup hug-run__pickup--four" data-label="saudade boa">saudade boa</div>
+                <div class="hug-run__goal" id="hug-goal">abra&ccedil;o final</div>
+              </div>
+
+              <p class="game-feedback" id="hug-feedback">
+                Clica na arena e usa o teclado para jogar.
+              </p>
+            </article>
+          </div>
+        </section>
+
         <section class="section section--memory-game">
           <div class="section-heading">
             <p class="eyebrow">Mais uma brincadeira</p>
@@ -468,6 +524,6 @@
       </main>
     </div>
 
-    <script src="script.js?v=14"></script>
+    <script src="script.js?v=15"></script>
   </body>
 </html>

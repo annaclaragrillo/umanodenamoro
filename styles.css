@@ -831,6 +831,152 @@ img {
   font-weight: 600;
 }
 
+.maze-arena,
+.hug-run {
+  position: relative;
+  margin-top: 18px;
+  min-height: 260px;
+  border-radius: 24px;
+  border: 1px dashed rgba(255, 229, 218, 0.22);
+  background:
+    radial-gradient(circle at top right, rgba(242, 198, 166, 0.12), transparent 34%),
+    rgba(255, 247, 242, 0.04);
+  overflow: hidden;
+}
+
+.maze-arena:focus,
+.hug-run:focus {
+  outline: 2px solid rgba(255, 229, 218, 0.35);
+  outline-offset: 3px;
+}
+
+.maze-player,
+.hug-run__player {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffd6c2, #e38e7a);
+  color: #fff8f4;
+  font-size: 1.15rem;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.maze-player {
+  left: 18px;
+  top: 18px;
+}
+
+.maze-goal {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(242, 198, 166, 0.16);
+  border: 1px solid rgba(255, 229, 218, 0.24);
+  color: #ffe6d7;
+  font-size: 0.95rem;
+}
+
+.maze-wall {
+  position: absolute;
+  border-radius: 999px;
+  background: rgba(255, 247, 242, 0.14);
+}
+
+.maze-wall--one {
+  left: 72px;
+  top: 56px;
+  width: 210px;
+  height: 14px;
+}
+
+.maze-wall--two {
+  left: 140px;
+  top: 56px;
+  width: 14px;
+  height: 130px;
+}
+
+.maze-wall--three {
+  left: 140px;
+  top: 172px;
+  width: 190px;
+  height: 14px;
+}
+
+.maze-wall--four {
+  right: 120px;
+  top: 86px;
+  width: 14px;
+  height: 126px;
+}
+
+.maze-wall--five {
+  left: 300px;
+  top: 102px;
+  width: 180px;
+  height: 14px;
+}
+
+.hug-run__player {
+  left: 18px;
+  top: 18px;
+}
+
+.hug-run__pickup,
+.hug-run__goal {
+  position: absolute;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 229, 218, 0.18);
+  font-size: 0.9rem;
+  color: #fff5ee;
+  background: rgba(255, 247, 242, 0.08);
+}
+
+.hug-run__pickup--one {
+  left: 96px;
+  top: 42px;
+}
+
+.hug-run__pickup--two {
+  right: 36px;
+  top: 58px;
+}
+
+.hug-run__pickup--three {
+  left: 180px;
+  bottom: 38px;
+}
+
+.hug-run__pickup--four {
+  right: 120px;
+  bottom: 54px;
+}
+
+.hug-run__pickup.is-collected {
+  opacity: 0.18;
+}
+
+.hug-run__goal {
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  background: rgba(242, 198, 166, 0.16);
+  color: #ffe6d7;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hug-run__goal.is-visible {
+  opacity: 1;
+}
+
 .section--final {
   padding-bottom: 72px;
 }
@@ -950,6 +1096,11 @@ body.is-night .ambient-right {
   .memory-board,
   .traits {
     grid-template-columns: 1fr;
+  }
+
+  .memory-match__intro {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .hero__grid {

@@ -19,6 +19,16 @@ const photoPrev = document.getElementById("photo-prev");
 const photoNext = document.getElementById("photo-next");
 const photoCaption = document.getElementById("photo-caption");
 const photoDots = document.getElementById("photo-dots");
+const mazeArena = document.getElementById("maze-arena");
+const mazePlayer = document.getElementById("maze-player");
+const mazeGoal = document.getElementById("maze-goal");
+const mazeWalls = Array.from(document.querySelectorAll(".maze-wall"));
+const mazeFeedback = document.getElementById("maze-feedback");
+const hugRun = document.getElementById("hug-run");
+const hugPlayer = document.getElementById("hug-player");
+const hugPickups = Array.from(document.querySelectorAll(".hug-run__pickup"));
+const hugGoal = document.getElementById("hug-goal");
+const hugFeedback = document.getElementById("hug-feedback");
 const memoryBoard = document.getElementById("memory-board");
 const memoryTiles = Array.from(document.querySelectorAll(".memory-tile"));
 const memoryPairs = document.getElementById("memory-pairs");
@@ -38,10 +48,15 @@ let currentPhoto = 0;
 let flippedMemoryTiles = [];
 let matchedPairs = 0;
 let memoryLocked = false;
+let mazeComplete = false;
+let hugComplete = false;
+let hugCollected = 0;
 
 const heartGoal = 8;
 const playerPosition = { x: 18, y: 18 };
 const coinPosition = { x: 120, y: 70 };
+const mazePosition = { x: 18, y: 18 };
+const hugPosition = { x: 18, y: 18 };
 const photoSlides = Array.from(document.querySelectorAll(".photo-slide"));
 const photoCaptions = [
   "Um pedacinho bonito da nossa história.",
@@ -209,6 +224,135 @@ function renderCarousel() {
   });
 
   photoCaption.textContent = photoCaptions[currentPhoto] ?? "";
+}
+
+function intersects(rectA, rectB) {
+  return !(
+    rectA.right < rectB.left ||
+    rectA.left > rectB.right ||
+    rectA.bottom < rectB.top ||
+    rectA.top > rectB.bottom
+  );
+}
+
+function renderMazePlayer() {
+  mazePlayer.style.left = `${mazePosition.x}px`;
+  mazePlayer.style.top = `${mazePosition.y}px`;
+}
+
+function renderHugPlayer() {
+  hugPlayer.style.left = `${hugPosition.x}px`;
+  hugPlayer.style.top = `${hugPosition.y}px`;
+}
+
+function tryMoveInMaze(dx, dy) {
+  if (mazeComplete) {
+    return;
+  }
+
+  const nextX = mazePosition.x + dx;
+  const nextY = mazePosition.y + dy;
+  const maxX = Math.max(mazeArena.clientWidth - 52, 8);
+  const maxY = Math.max(mazeArena.clientHeight - 52, 8);
+  const clampedX = Math.min(Math.max(nextX, 8), maxX);
+  const clampedY = Math.min(Math.max(nextY, 8), maxY);
+  const nextRect = {
+    left: clampedX,
+    top: clampedY,
+    right: clampedX + 42,
+    bottom: clampedY + 42,
+  };
+
+  const collided = mazeWalls.some((wall) => {
+    const wallRect = {
+      left: wall.offsetLeft,
+      top: wall.offsetTop,
+      right: wall.offsetLeft + wall.offsetWidth,
+      bottom: wall.offsetTop + wall.offsetHeight,
+    };
+
+    return intersects(nextRect, wallRect);
+  });
+
+  if (collided) {
+    mazeFeedback.textContent = "Opa, bateu na parede. Tenta outro caminho.";
+    return;
+  }
+
+  mazePosition.x = clampedX;
+  mazePosition.y = clampedY;
+  renderMazePlayer();
+
+  const goalRect = {
+    left: mazeGoal.offsetLeft,
+    top: mazeGoal.offsetTop,
+    right: mazeGoal.offsetLeft + mazeGoal.offsetWidth,
+    bottom: mazeGoal.offsetTop + mazeGoal.offsetHeight,
+  };
+
+  if (intersects(nextRect, goalRect)) {
+    mazeComplete = true;
+    mazeFeedback.textContent = "Conseguiu chegar até mim. Agora já pode passar para a próxima fase.";
+  }
+}
+
+function tryMoveInHugRun(dx, dy) {
+  if (hugComplete) {
+    return;
+  }
+
+  const maxX = Math.max(hugRun.clientWidth - 52, 8);
+  const maxY = Math.max(hugRun.clientHeight - 52, 8);
+  hugPosition.x = Math.min(Math.max(hugPosition.x + dx, 8), maxX);
+  hugPosition.y = Math.min(Math.max(hugPosition.y + dy, 8), maxY);
+  renderHugPlayer();
+
+  const playerRect = {
+    left: hugPosition.x,
+    top: hugPosition.y,
+    right: hugPosition.x + 42,
+    bottom: hugPosition.y + 42,
+  };
+
+  hugPickups.forEach((pickup) => {
+    if (pickup.classList.contains("is-collected")) {
+      return;
+    }
+
+    const pickupRect = {
+      left: pickup.offsetLeft,
+      top: pickup.offsetTop,
+      right: pickup.offsetLeft + pickup.offsetWidth,
+      bottom: pickup.offsetTop + pickup.offsetHeight,
+    };
+
+    if (intersects(playerRect, pickupRect)) {
+      pickup.classList.add("is-collected");
+      hugCollected += 1;
+      hugFeedback.textContent = `Boa. Você pegou ${pickup.dataset.label}.`;
+
+      if (hugCollected === hugPickups.length) {
+        hugGoal.classList.add("is-visible");
+        hugFeedback.textContent = "Agora corre para o abraço final.";
+      }
+    }
+  });
+
+  if (!hugGoal.classList.contains("is-visible")) {
+    return;
+  }
+
+  const goalRect = {
+    left: hugGoal.offsetLeft,
+    top: hugGoal.offsetTop,
+    right: hugGoal.offsetLeft + hugGoal.offsetWidth,
+    bottom: hugGoal.offsetTop + hugGoal.offsetHeight,
+  };
+
+  if (intersects(playerRect, goalRect)) {
+    hugComplete = true;
+    hugFeedback.textContent = "Chegou no abraço final. Agora sim, pode ir para a memória.";
+  }
 }
 
 function shuffleMemoryTiles() {
@@ -393,8 +537,52 @@ heartHunt.addEventListener("keydown", (event) => {
   }
 });
 
+mazeArena.addEventListener("keydown", (event) => {
+  const step = 16;
+
+  if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+    event.preventDefault();
+    tryMoveInMaze(0, -step);
+  } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+    event.preventDefault();
+    tryMoveInMaze(0, step);
+  } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+    event.preventDefault();
+    tryMoveInMaze(-step, 0);
+  } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+    event.preventDefault();
+    tryMoveInMaze(step, 0);
+  }
+});
+
+hugRun.addEventListener("keydown", (event) => {
+  const step = 18;
+
+  if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+    event.preventDefault();
+    tryMoveInHugRun(0, -step);
+  } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+    event.preventDefault();
+    tryMoveInHugRun(0, step);
+  } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+    event.preventDefault();
+    tryMoveInHugRun(-step, 0);
+  } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+    event.preventDefault();
+    tryMoveInHugRun(step, 0);
+  }
+});
+
 heartHunt.addEventListener("click", () => {
   heartHunt.focus();
+});
+
+mazeArena.addEventListener("click", () => {
+  mazeArena.focus();
+});
+
+hugRun.addEventListener("click", () => {
+  hugRun.focus();
 });
 
 photoPrev.addEventListener("click", () => {
@@ -430,6 +618,8 @@ window.addEventListener("load", () => {
   buildCarouselDots();
   renderCarousel();
   renderPlayer();
+  renderMazePlayer();
+  renderHugPlayer();
   placeCoin();
   shuffleMemoryTiles();
   updateMemoryStatus();
@@ -439,5 +629,7 @@ window.addEventListener("load", () => {
 
 window.addEventListener("resize", () => {
   renderPlayer();
+  renderMazePlayer();
+  renderHugPlayer();
   placeCoin();
 });
