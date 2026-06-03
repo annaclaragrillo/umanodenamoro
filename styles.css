@@ -891,7 +891,7 @@ img {
 .maze-wall--one {
   left: 72px;
   top: 56px;
-  width: 210px;
+  width: 236px;
   height: 14px;
 }
 
@@ -899,28 +899,49 @@ img {
   left: 140px;
   top: 56px;
   width: 14px;
-  height: 130px;
+  height: 144px;
 }
 
 .maze-wall--three {
   left: 140px;
-  top: 172px;
-  width: 190px;
+  top: 186px;
+  width: 214px;
   height: 14px;
 }
 
 .maze-wall--four {
-  right: 120px;
-  top: 86px;
+  right: 128px;
+  top: 84px;
   width: 14px;
-  height: 126px;
+  height: 138px;
 }
 
 .maze-wall--five {
-  left: 300px;
-  top: 102px;
-  width: 180px;
+  left: 320px;
+  top: 108px;
+  width: 164px;
   height: 14px;
+}
+
+.maze-wall--six {
+  left: 54px;
+  top: 116px;
+  width: 14px;
+  height: 116px;
+}
+
+.maze-wall--seven {
+  left: 54px;
+  top: 232px;
+  width: 250px;
+  height: 14px;
+}
+
+.maze-wall--eight {
+  right: 36px;
+  top: 146px;
+  width: 14px;
+  height: 96px;
 }
 
 .hug-run__player {
