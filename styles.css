@@ -913,7 +913,7 @@ img {
   right: 128px;
   top: 84px;
   width: 14px;
-  height: 138px;
+  height: 112px;
 }
 
 .maze-wall--five {
@@ -933,7 +933,7 @@ img {
 .maze-wall--seven {
   left: 54px;
   top: 232px;
-  width: 210px;
+  width: 132px;
   height: 14px;
 }
 
@@ -941,7 +941,7 @@ img {
   right: 36px;
   top: 146px;
   width: 14px;
-  height: 96px;
+  height: 58px;
 }
 
 .maze-wall--nine {
