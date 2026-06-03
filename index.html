@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Parisienne&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=13" />
+    <link rel="stylesheet" href="styles.css?v=14" />
   </head>
   <body>
     <div class="page-shell">
@@ -368,6 +368,74 @@
           </div>
         </section>
 
+        <section class="section section--memory-game">
+          <div class="section-heading">
+            <p class="eyebrow">Mais uma brincadeira</p>
+            <h2>Antes do convite final, um joguinho da mem&oacute;ria para combinar com a gente.</h2>
+          </div>
+
+          <div class="memory-match">
+            <div class="memory-match__intro">
+              <p>
+                Vira as cartas e encontra os pares. Quando terminar, eu libero
+                mais uma mensagem para voc&ecirc;.
+              </p>
+              <p class="memory-match__status" id="memory-status">
+                Pares encontrados: <span id="memory-pairs">0</span>/4
+              </p>
+            </div>
+
+            <div class="memory-board" id="memory-board">
+              <button class="memory-tile" type="button" data-symbol="&#10084;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10084;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#10024;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10024;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#9786;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#9786;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#10084;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10084;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#9786;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#9786;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#10047;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10047;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#10024;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10024;</span>
+              </button>
+              <button class="memory-tile" type="button" data-symbol="&#10047;">
+                <span class="memory-tile__face memory-tile__face--front">?</span>
+                <span class="memory-tile__face memory-tile__face--back">&#10047;</span>
+              </button>
+            </div>
+
+            <p class="memory-match__feedback" id="memory-feedback">
+              Vai com calma e vê se a tua memória está boa mesmo.
+            </p>
+
+            <div class="memory-match__reward" id="memory-reward">
+              <p class="eyebrow">Mensagem desbloqueada</p>
+              <h3>Se at&eacute; aqui j&aacute; estava bonito</h3>
+              <p>
+                agora ficou ainda mais a nossa cara: um pouquinho de brincadeira,
+                um monte de carinho e eu toda boba por estar vivendo isso com
+                voc&ecirc;.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <section class="section section--final" id="pedido">
           <div class="final-card">
             <p class="eyebrow">Convite final</p>
@@ -400,6 +468,6 @@
       </main>
     </div>
 
-    <script src="script.js?v=13"></script>
+    <script src="script.js?v=14"></script>
   </body>
 </html>

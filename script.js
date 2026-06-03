@@ -19,6 +19,11 @@ const photoPrev = document.getElementById("photo-prev");
 const photoNext = document.getElementById("photo-next");
 const photoCaption = document.getElementById("photo-caption");
 const photoDots = document.getElementById("photo-dots");
+const memoryBoard = document.getElementById("memory-board");
+const memoryTiles = Array.from(document.querySelectorAll(".memory-tile"));
+const memoryPairs = document.getElementById("memory-pairs");
+const memoryFeedback = document.getElementById("memory-feedback");
+const memoryReward = document.getElementById("memory-reward");
 const proposalStage = document.getElementById("proposal-stage");
 const yesButton = document.getElementById("yes-button");
 const noButton = document.getElementById("no-button");
@@ -30,6 +35,9 @@ let whoWrongCount = 0;
 let answeredCurrentQuestion = false;
 let collectedHearts = 0;
 let currentPhoto = 0;
+let flippedMemoryTiles = [];
+let matchedPairs = 0;
+let memoryLocked = false;
 
 const heartGoal = 8;
 const playerPosition = { x: 18, y: 18 };
@@ -203,6 +211,64 @@ function renderCarousel() {
   photoCaption.textContent = photoCaptions[currentPhoto] ?? "";
 }
 
+function shuffleMemoryTiles() {
+  const shuffled = [...memoryTiles].sort(() => Math.random() - 0.5);
+  shuffled.forEach((tile) => {
+    memoryBoard.appendChild(tile);
+  });
+}
+
+function updateMemoryStatus() {
+  memoryPairs.textContent = String(matchedPairs);
+}
+
+function handleMemoryMatch(tile) {
+  if (
+    memoryLocked ||
+    tile.classList.contains("is-flipped") ||
+    tile.classList.contains("is-matched")
+  ) {
+    return;
+  }
+
+  tile.classList.add("is-flipped");
+  flippedMemoryTiles.push(tile);
+
+  if (flippedMemoryTiles.length < 2) {
+    memoryFeedback.textContent = "Boa. Agora tenta lembrar onde está o par.";
+    return;
+  }
+
+  const [firstTile, secondTile] = flippedMemoryTiles;
+
+  if (firstTile.dataset.symbol === secondTile.dataset.symbol) {
+    firstTile.classList.add("is-matched");
+    secondTile.classList.add("is-matched");
+    flippedMemoryTiles = [];
+    matchedPairs += 1;
+    updateMemoryStatus();
+
+    if (matchedPairs === 4) {
+      memoryFeedback.textContent = "Acertou tudo. Agora sim, já pode ir para o convite final.";
+      memoryReward.classList.add("is-visible");
+      return;
+    }
+
+    memoryFeedback.textContent = "Acertou o par. Vai, está indo bem.";
+    return;
+  }
+
+  memoryLocked = true;
+  memoryFeedback.textContent = "Quase. Guarda essas posições e tenta mais uma vez.";
+
+  window.setTimeout(() => {
+    firstTile.classList.remove("is-flipped");
+    secondTile.classList.remove("is-flipped");
+    flippedMemoryTiles = [];
+    memoryLocked = false;
+  }, 850);
+}
+
 function buildCarouselDots() {
   photoSlides.forEach((_, index) => {
     const dot = document.createElement("button");
@@ -341,6 +407,12 @@ photoNext.addEventListener("click", () => {
   renderCarousel();
 });
 
+memoryTiles.forEach((tile) => {
+  tile.addEventListener("click", () => {
+    handleMemoryMatch(tile);
+  });
+});
+
 noButton.addEventListener("mouseenter", moveNoButton);
 noButton.addEventListener("click", (event) => {
   event.preventDefault();
@@ -359,6 +431,8 @@ window.addEventListener("load", () => {
   renderCarousel();
   renderPlayer();
   placeCoin();
+  shuffleMemoryTiles();
+  updateMemoryStatus();
   renderWhoScore();
   renderWhoQuestion();
 });

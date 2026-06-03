@@ -713,6 +713,124 @@ img {
   left: 24px;
 }
 
+.memory-match {
+  padding: 32px;
+  border-radius: 30px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 247, 242, 0.11), rgba(255, 247, 242, 0.04));
+  box-shadow: var(--shadow);
+}
+
+.memory-match__intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.memory-match__intro p,
+.memory-match__feedback,
+.memory-match__reward p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.memory-match__status {
+  white-space: nowrap;
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.memory-tile {
+  position: relative;
+  min-height: 120px;
+  border: 1px solid rgba(255, 229, 218, 0.18);
+  border-radius: 24px;
+  background: rgba(255, 247, 242, 0.06);
+  color: var(--text);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+.memory-tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 229, 218, 0.3);
+}
+
+.memory-tile.is-flipped {
+  background: rgba(255, 247, 242, 0.12);
+}
+
+.memory-tile.is-matched {
+  background: rgba(242, 198, 166, 0.14);
+  border-color: rgba(255, 229, 218, 0.42);
+  cursor: default;
+}
+
+.memory-tile__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.3rem;
+  font-weight: 600;
+}
+
+.memory-tile__face--front {
+  color: var(--muted);
+}
+
+.memory-tile__face--back {
+  opacity: 0;
+  color: #ffd9c8;
+}
+
+.memory-tile.is-flipped .memory-tile__face--front,
+.memory-tile.is-matched .memory-tile__face--front {
+  opacity: 0;
+}
+
+.memory-tile.is-flipped .memory-tile__face--back,
+.memory-tile.is-matched .memory-tile__face--back {
+  opacity: 1;
+}
+
+.memory-match__feedback {
+  margin-top: 18px;
+}
+
+.memory-match__reward {
+  display: none;
+  margin-top: 22px;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 229, 218, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(242, 198, 166, 0.14), transparent 38%),
+    rgba(255, 247, 242, 0.06);
+}
+
+.memory-match__reward.is-visible {
+  display: block;
+}
+
+.memory-match__reward h3 {
+  margin: 0 0 10px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
 .section--final {
   padding-bottom: 72px;
 }
@@ -829,6 +947,7 @@ body.is-night .ambient-right {
 
   .memory-grid,
   .games-grid,
+  .memory-board,
   .traits {
     grid-template-columns: 1fr;
   }
@@ -893,7 +1012,8 @@ body.is-night .ambient-right {
   .hero-card,
   .letter,
   .game-card,
-  .final-card {
+  .final-card,
+  .memory-match {
     padding: 28px;
   }
 
