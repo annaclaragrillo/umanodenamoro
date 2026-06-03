@@ -308,7 +308,7 @@ img {
 }
 
 .section-heading--compact {
-  margin-top: 40px;
+  margin-top: 56px;
   margin-bottom: 14px;
 }
 
@@ -745,22 +745,24 @@ img {
 .proposal-stage__buttons {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
 }
 
 .proposal-stage__yes {
-  position: relative;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: 50%;
+  transform: translate(-100%, -50%);
 }
 
 .proposal-stage__yes:hover {
-  transform: none;
+  transform: translate(-100%, -50%);
 }
 
 .proposal-stage__no {
-  position: relative;
+  position: absolute;
+  left: calc(50% + 12px);
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .proposal-message {
@@ -978,10 +980,10 @@ body.is-night .ambient-right {
   }
 
   .proposal-stage__yes {
-    left: auto;
+    left: calc(50% - 10px);
   }
 
   .proposal-stage__no {
-    right: auto;
+    left: calc(50% + 10px);
   }
 }
